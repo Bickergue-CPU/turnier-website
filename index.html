@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hallenturniere - NWG-Süd</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="logo">
+        <a href="index.html">
+            <img src="img/logo-ooefv.png" alt="Logo">
+        </a>
+        <div class="title">
+            <h1>Hallenturniere der Nachwuchsgruppe Süd</h1>
+            <h2>Regionsleiter: Roland Knapp</h2>
+        </div>
+    </div>
+
+    <div class="header-buttons">
+        <button class="btn">TurnierAdmin</button>
+        <button class="btn">Veranstalter</button>
+    </div>
+</header>
+
+
+<nav class="orte-container" id="orteContainer"></nav>
+
+<div class="app">
+    <div class="content-row">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="info-block">
+                <h4>Informationen</h4>
+                <button class="btn" onclick="showPDF('pdf/bestimmungen_kremstal.pdf')">
+                    Bestimmungen
+                </button>
+                <button class="btn" id="btnKaderlisten">Kaderlisten</button>
+            </div>
+
+            <div id="sidebarWorkplace" class="sidebar-workplace" style="display:none;">
+                <button class="btn" onclick="showPDF('kaderlisten/kaderliste_7_u07-u08.pdf')">
+                    Kaderliste U07-U08
+                </button>
+                <button class="btn" onclick="showPDF('kaderlisten/kaderliste_11_u09-u11.pdf')">
+                    Kaderliste U09-U11
+                </button>
+                <button class="btn" onclick="showPDF('kaderlisten/kaderliste_16_u12-u18.pdf')">
+                    Kaderliste U12-U18
+                </button>
+                <button class="btn" onclick="showPDF('kaderlisten/kaderliste_gesamt.pdf')">
+                    Kaderliste Gesamt
+                </button>
+            </div>
+
+            <div id="sidebarContent" class="sidebar-content"></div>
+
+            <div class="sidebar-bottom">
+                <a href="https://ergo-versicherung.at" target="_blank" rel="noopener noreferrer">
+                    <img src="img/ergo-logo.png" alt="Ergo Logo" class="sidebar-ad-logo">
+                </a>
+            </div>
+        </aside>
+
+        <!-- MAIN -->
+        <main class="main">
+
+            <!-- PDF CONTROLS -->
+            <div class="button-bar" id="pdfControls" style="display:none;">
+                <button class="btn" onclick="hidePDF()">← Zurück</button>
+                <a id="downloadBtn" href="#" download class="btn">⬇ Download</a>
+            </div>
+
+            <!-- PDF VIEWER -->
+            <div id="mainContainer" style="display:none;">
+                <iframe id="pdfViewer" title="PDF Viewer"></iframe>
+            </div>
+
+            <!-- TURNIER MANAGER -->
+            <div id="mainContent" style="display:none;"></div>
+
+            <!-- STARTSEITE -->
+            <div class="main-scroll" id="mainScroll">
+                <h2>Fairplay, Teamgeist & Freude</h2>
+                    <p>⚽ – ⚽ - ⚽ - ⚽ - ⚽</p>Fairplay, Teamgeist & Freude! Ein Hallenturnier für alle!<br>Ein Fußball-Hallenturnier ist ein besonderes Erlebnis für Kinder und Jugendliche –<br>hier geht es um Ehrgeiz, Willen und vor allem Fairplay.<br>Die
+                    jungen Spieler zeigen Einsatz, lernen mit Siegen und Niederlagen umzugehen und stärken ihr soziales Verhalten im Team.<br><br>Doch nicht nur die Kids sind gefragt:<br>Auch Eltern und Zuschauer tragen eine wichtige Rolle!<br>Lautstarke
+                    Anfeuerung ist willkommen – aber immer mit Respekt!<br><br><strong>Beleidigungen, Druck oder unfaires Verhalten haben auf dem Platz,<br>an der Seitenlinie und auf der Tribüne nichts verloren.</strong><br> <br>Stattdessen sollten alle
+                    gemeinsam eine positive Atmosphäre schaffen, in der der Spaß am Spiel im Vordergrund steht.
+                    <br>Denn am Ende zählt nicht nur das Ergebnis, sondern die Freude am Fußball und die Werte, die vermittelt werden. <br>Wenn alle – Spieler, Trainer und Fans – mit Fairplay und Begeisterung dabei sind,<br>wird jedes Hallenturnier zu
+                    einem unvergesslichen Erlebnis für alle! ⚽😊</p>
+                    <p>⚽ – ⚽ - ⚽ - ⚽ - ⚽</p>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+<footer class="footer">
+    © OÖ Fußballverband – Nachwuchsgruppe Süd
+</footer>
+
+<script type="module" src="js/app.js"></script>
+
+</body>
+</html>

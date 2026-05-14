@@ -1,0 +1,55 @@
+{
+  "anzahl": 2,
+  "orte": [
+    {
+      "name": "Kirchdorf",
+      "altersgruppen": [
+        {
+          "name": "U09",
+          "teams": 6
+        },
+        {
+          "name": "U10",
+          "teams": 11
+        },
+        {
+          "name": "U11",
+          "teams": 9
+        },
+        {
+          "name": "U12",
+          "teams": 13
+        },
+        {
+          "name": "U13",
+          "teams": 9
+        },
+        {
+          "name": "U14",
+          "teams": 8
+        },
+        {
+          "name": "U15",
+          "teams": 5
+        }
+      ]
+    },
+    {
+      "name": "Frankenmarkt",
+      "altersgruppen": [
+        {
+          "name": "U09",
+          "teams": 7
+        },
+        {
+          "name": "U13",
+          "teams": 12
+        },
+        {
+          "name": "U16",
+          "teams": 9
+        }
+      ]
+    }
+  ]
+}

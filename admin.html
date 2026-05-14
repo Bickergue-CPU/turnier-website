@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin – Veranstaltungsorte</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* Scroll-Fix */
+html, body {
+    height: auto;
+    overflow-y: auto;
+    min-height: 100%;
+}
+
+.container {
+    height: auto;
+    overflow: visible;
+    min-height: 100vh;
+}
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2, h3 {
+            text-align: center;
+        }
+
+        .section {
+            background: white;
+            padding: 20px;
+            margin: 20px auto;
+            border-radius: 10px;
+            max-width: 1200px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            padding: 6px 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-edit {
+            background: #ffc107;
+        }
+
+        .center-button {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        input {
+            padding: 6px;
+            margin: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        /* ===== ORTE ===== */
+
+        #orteContainer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .ort-item {
+            /* min-width: 180px; */
+            width: 275px;
+            /* width: auto; */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 8px;
+            background: white;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .ort-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            cursor: pointer;
+        }
+
+        .ort-name {
+            font-size: 0.85rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .ort-buttons {
+            display: flex;
+            gap: 6px;
+        }
+
+        .ort-buttons button {
+            font-size: 11px;
+            padding: 3px 5px;
+            line-height: 1;
+        }
+
+        /* ===== TURNIER ===== */
+
+        .turnier-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        #turnierTitel {
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .turnier-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            width: 100%;
+        }
+
+        #altersgruppenContainer {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 10px;
+        }
+
+        #vereineContainer {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            width: 100%;
+        }
+
+        .turnier-button {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        /* ===== ANZEIGE ===== */
+
+        #anzeigeContainer {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        #anzeigeContainer > div {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background: white;
+            font-size: 0.9rem;
+        }
+
+        /* ===== MOBILE ===== */
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .section {
+                padding: 15px;
+            }
+
+            .ort-item {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <h3>⚙️ Turnier-Administrator-Bereich</h3>
+    </header>
+
+    <main>
+
+        <!-- ORTE -->
+        <div class="section">
+            <h3>Veranstaltungsorte verwalten</h3>
+
+            <label>Anzahl Veranstaltungsorte:</label>
+            <input type="number" id="anzahlOrte" min="1" max="10" value="1">
+
+            <button id="erstellenBtn" class="btn-primary">
+                Eingabefelder erstellen
+            </button>
+
+            <div id="eingabeContainer"></div>
+
+            <div class="center-button">
+                <button id="speichernBtn" class="btn-primary">
+                    Orte speichern
+                </button>
+            </div>
+        </div>
+
+        <!-- GESPEICHERTE ORTE -->
+        <div class="section">
+            <h3>Gespeicherte Orte</h3>
+            <div id="orteContainer"></div>
+        </div>
+
+        <!-- TURNIER -->
+        <div class="section">
+            <div id="turnierSetup" class="turnier-container">
+
+                <h3>Turnier bearbeiten</h3>
+
+                <div id="turnierTitel"></div>
+
+                <div id="altersgruppenContainer"></div>
+
+                <h4 style="text-align:center;">
+                    Vereine pro Altersklasse
+                </h4>
+
+                <div id="vereineContainer"></div>
+
+                <div class="turnier-button">
+                    <button id="turnierSpeichernBtn" class="btn-primary">
+                        Turnier speichern
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- TURNIERE -->
+        <div class="section">
+            <h3>Gespeicherte Turniere</h3>
+            <div id="anzeigeContainer"></div>
+            <div id="turnierAnzeige"></div>
+        </div>
+
+    </main>
+
+</div>
+
+<footer class="footer">
+    © OÖ Fußballverband – Nachwuchsgruppe Süd
+</footer>
+
+<script type="module" src="js/admin.js"></script>
+
+</body>
+</html>
