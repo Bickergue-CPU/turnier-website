@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zuschauer - Turnier-App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a1a;
+            color: #ffffff;
+            font-family: 'Segoe UI', sans-serif;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+        header {
+            background: linear-gradient(135deg, #1a1a2e, #f0f0f0);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #e94560;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-left h1 {
+    font-size: 1.4rem;
+    background: linear-gradient(135deg, #e94560, #0f3460);
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;           /* ← Hinzufügen! */
+    -webkit-text-fill-color: transparent;
+    color: transparent;              /* ← Hinzufügen! */
+}
+
+        .btn-back {
+            background: transparent;
+            border: 1px solid #e94560;
+            color: #e94560;
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-back:hover {
+            background: #e94560;
+            color: white;
+        }
+
+        /* NAVIGATION TABS */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            padding: 20px;
+            background: #0d0d1a;
+            border-bottom: 1px solid #1a1a2e;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 1px solid #333;
+            background: transparent;
+            color: #aaa;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .tab.active, .tab:hover {
+            background: linear-gradient(135deg, #e94560, #0f3460);
+            color: white;
+            border-color: transparent;
+        }
+
+        /* MAIN CONTENT */
+        main {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section {
+            background: linear-gradient(135deg, #1a1a2e, #f0f0f0);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid #2a2a4e;
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section h2 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #e94560;
+        }
+
+        /* TABELLE */
+        .tabelle {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .tabelle th {
+            background: #0f3460;
+            padding: 12px;
+            text-align: left;
+            font-size: 0.85rem;
+            color: #aaa;
+            text-transform: uppercase;
+        }
+
+        .tabelle td {
+            padding: 12px;
+            border-bottom: 1px solid #2a2a4e;
+            font-size: 0.95rem;
+        }
+
+        .tabelle tr:hover td {
+            background: rgba(233, 69, 96, 0.05);
+        }
+
+        .rang {
+            font-weight: bold;
+            color: #e94560;
+            font-size: 1.1rem;
+        }
+
+        .rang-1 { color: gold; }
+        .rang-2 { color: silver; }
+        .rang-3 { color: #cd7f32; }
+
+        /* SPIELPLAN */
+        .spiel-karte {
+            background: #0d0d1a;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border: 1px solid #2a2a4e;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .spiel-info {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .spiel-teams {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .team-name {
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .spiel-ergebnis {
+            background: linear-gradient(135deg, #e94560, #0f3460);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .status-beendet { background: #1a4a1a; color: #4caf50; }
+        .status-laufend { background: #4a1a00; color: #ff6b35; }
+        .status-geplant { background: #1a1a4a; color: #64b5f6; }
+
+        /* LIVE BADGE */
+        .live-badge {
+            background: #e94560;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* LOADING */
+        .loading {
+            text-align: center;
+            color: #888;
+            padding: 40px;
+            font-size: 1rem;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 600px) {
+            .spiel-karte {
+                flex-direction: column;
+                text-align: center;
+            }
+            .tabelle th, .tabelle td {
+                padding: 8px 6px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="header-left">
+            <span style="font-size:1.5rem;">⚽</span>
+            <h1>Turnier-App</h1>
+        </div>
+        <a href="/" class="btn-back">← Zurück</a>
+    </header>
+
+    <!-- TABS -->
+    <div class="tabs">
+        <button class="tab active" onclick="zeigeTab('tabelle')">📊 Tabelle</button>
+        <button class="tab" onclick="zeigeTab('spielplan')">📅 Spielplan</button>
+        <button class="tab" onclick="zeigeTab('live')">🔴 Live</button>
+    </div>
+
+    <!-- MAIN -->
+    <main>
+
+        <!-- TABELLE -->
+        <div class="section active" id="tab-tabelle">
+            <h2>📊 Aktuelle Tabelle</h2>
+            <div id="tabelleInhalt">
+                <div class="loading">⏳ Lade Tabelle...</div>
+            </div>
+        </div>
+
+        <!-- SPIELPLAN -->
+        <div class="section" id="tab-spielplan">
+            <h2>📅 Spielplan</h2>
+            <div id="spielplanInhalt">
+                <div class="loading">⏳ Lade Spielplan...</div>
+            </div>
+        </div>
+
+        <!-- LIVE -->
+        <div class="section" id="tab-live">
+            <h2>🔴 Live-Spiele <span class="live-badge">LIVE</span></h2>
+            <div id="liveInhalt">
+                <div class="loading">⏳ Suche Live-Spiele...</div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // =============================================
+        // TAB WECHSELN
+        // =============================================
+        function zeigeTab(tabName) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+
+            document.getElementById('tab-' + tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // =============================================
+        // TABELLE LADEN
+        // =============================================
+        async function ladeTabelle() {
+            try {
+                const response = await fetch('/api/tabelle');
+                const data = await response.json();
+
+                if (!data || data.length === 0) {
+                    document.getElementById('tabelleInhalt').innerHTML =
+                        '<div class="loading">Noch keine Tabellendaten vorhanden.</div>';
+                    return;
+                }
+
+                let html = '<table class="tabelle"><thead><tr>' +
+                    '<th>#</th><th>Team</th><th>Sp</th><th>S</th>' +
+                    '<th>U</th><th>N</th><th>Tore</th><th>Pkt</th>' +
+                    '</tr></thead><tbody>';
+
+                data.forEach((team, index) => {
+                    const rang = index + 1;
+                    const rangClass = rang <= 3 ? 'rang rang-' + rang : 'rang';
+                    html += '<tr>' +
+                        '<td><span class="' + rangClass + '">' + rang + '</span></td>' +
+                        '<td>' + (team.name || team.team || '-') + '</td>' +
+                        '<td>' + (team.spiele || 0) + '</td>' +
+                        '<td>' + (team.siege || 0) + '</td>' +
+                        '<td>' + (team.unentschieden || 0) + '</td>' +
+                        '<td>' + (team.niederlagen || 0) + '</td>' +
+                        '<td>' + (team.tore || '0:0') + '</td>' +
+                        '<td><strong>' + (team.punkte || 0) + '</strong></td>' +
+                        '</tr>';
+                });
+
+                html += '</tbody></table>';
+                document.getElementById('tabelleInhalt').innerHTML = html;
+
+            } catch (e) {
+                document.getElementById('tabelleInhalt').innerHTML =
+                    '<div class="loading">⚠️ Tabelle konnte nicht geladen werden.</div>';
+            }
+        }
+
+        // =============================================
+        // SPIELPLAN LADEN
+        // =============================================
+        async function ladeSpielplan() {
+            try {
+                const response = await fetch('/api/spiele');
+                const data = await response.json();
+
+                if (!data || data.length === 0) {
+                    document.getElementById('spielplanInhalt').innerHTML =
+                        '<div class="loading">Noch keine Spiele geplant.</div>';
+                    return;
+                }
+
+                let html = '';
+                data.forEach(spiel => {
+                    const status = spiel.status || 'geplant';
+                    const statusText = status === 'beendet' ? 'Beendet' :
+                                       status === 'laufend' ? '▶ Läuft' : '⏳ Geplant';
+                    const statusClass = 'status-' + status;
+
+                    html += '<div class="spiel-karte">' +
+                        '<div class="spiel-info">' +
+                            '<div>' + (spiel.zeit || '') + '</div>' +
+                            '<div>' + (spiel.ort || '') + '</div>' +
+                        '</div>' +
+                        '<div class="spiel-teams">' +
+                            '<span class="team-name">' + (spiel.heim || 'Team A') + '</span>' +
+                            '<span class="spiel-ergebnis">' +
+                                (spiel.ergebnis || (status === 'geplant' ? 'vs' : '0:0')) +
+                            '</span>' +
+                            '<span class="team-name">' + (spiel.gast || 'Team B') + '</span>' +
+                        '</div>' +
+                        '<span class="status-badge ' + statusClass + '">' + statusText + '</span>' +
+                        '</div>';
+                });
+
+                document.getElementById('spielplanInhalt').innerHTML = html;
+
+            } catch (e) {
+                document.getElementById('spielplanInhalt').innerHTML =
+                    '<div class="loading">⚠️ Spielplan konnte nicht geladen werden.</div>';
+            }
+        }
+
+        // =============================================
+        // LIVE SPIELE
+        // =============================================
+        async function ladeLive() {
+            try {
+                const response = await fetch('/api/spiele');
+                const data = await response.json();
+                const liveSpiele = data.filter(s => s.status === 'laufend');
+
+                if (liveSpiele.length === 0) {
+                    document.getElementById('liveInhalt').innerHTML =
+                        '<div class="loading">🔴 Gerade keine Live-Spiele.</div>';
+                    return;
+                }
+
+                let html = '';
+                liveSpiele.forEach(spiel => {
+                    html += '<div class="spiel-karte">' +
+                        '<div class="spiel-info">' +
+                            '<div>' + (spiel.zeit || '') + '</div>' +
+                            '<span class="live-badge">LIVE</span>' +
+                        '</div>' +
+                        '<div class="spiel-teams">' +
+                            '<span class="team-name">' + (spiel.heim || 'Team A') + '</span>' +
+                            '<span class="spiel-ergebnis">' + (spiel.ergebnis || '0:0') + '</span>' +
+                            '<span class="team-name">' + (spiel.gast || 'Team B') + '</span>' +
+                        '</div>' +
+                        '</div>';
+                });
+
+                document.getElementById('liveInhalt').innerHTML = html;
+
+            } catch (e) {
+                document.getElementById('liveInhalt').innerHTML =
+                    '<div class="loading">⚠️ Live-Daten nicht verfügbar.</div>';
+            }
+        }
+
+        // =============================================
+        // START
+        // =============================================
+        ladeTabelle();
+        ladeSpielplan();
+        ladeLive();
+
+        // Alle 30 Sekunden aktualisieren
+        setInterval(() => {
+            ladeTabelle();
+            ladeSpielplan();
+            ladeLive();
+        }, 30000);
+    </script>
+
+</body>
+</html>

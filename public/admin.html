@@ -1,0 +1,126 @@
+<!-- ADMIN HEADER -->
+<div class="section">
+    <h3 style="display:flex; justify-content:space-between; align-items:center;">
+        ⚙️ Turnier-Administrator-Bereich
+        <button onclick="zeigeTurnierUebersicht()" 
+                class="btn-secondary"
+                style="font-size:0.85rem; padding:6px 12px;">
+            👁️ Zuschauerbereich
+        </button>
+    </h3>
+</div>
+
+<!-- ORTE VERWALTEN -->
+<div class="section">
+    <h3>📍 Veranstaltungsorte verwalten</h3>
+    <label>Anzahl neue Orte:</label>
+    <input type="number" id="anzahlOrte" min="1" max="10" value="1" 
+           style="width:80px; margin: 0 8px;">
+    <button onclick="erstelleEingabefelder()" class="btn-primary">
+        Eingabefelder erstellen
+    </button>
+    <div id="eingabeContainer" style="margin-top:12px;"></div>
+    <div style="margin-top:10px;">
+        <button onclick="speichereAlleOrte()" class="btn-primary">
+            💾 Orte speichern
+        </button>
+    </div>
+</div>
+
+<!-- GESPEICHERTE ORTE -->
+<div class="section">
+    <h3>🏟️ Gespeicherte Orte</h3>
+    <div id="adminOrteContainer">
+        <p>Wird geladen...</p>
+    </div>
+</div>
+
+<!-- TURNIER ERSTELLEN - NEU -->
+<div class="section">
+    <h3>🏆 Neues Turnier erstellen</h3>
+
+    <!-- Ort & Datum -->
+    <div style="margin: 10px 0;">
+        <label>Veranstaltungsort:</label><br>
+        <select id="turnierOrt" style="width:100%; padding:8px; margin-top:4px;">
+            <option value="">– Bitte wählen –</option>
+        </select>
+    </div>
+
+    <div style="display:flex; gap:12px; margin:10px 0; flex-wrap:wrap;">
+        <div>
+            <label>Datum:</label><br>
+            <input type="date" id="turnierDatum" style="padding:6px;">
+        </div>
+        <div>
+            <label>Startzeit:</label><br>
+            <input type="time" id="turnierStartzeit" value="09:00" style="padding:6px;">
+        </div>
+    </div>
+
+    <!-- Spielzeiten -->
+    <div style="display:flex; gap:12px; margin:10px 0; flex-wrap:wrap;">
+        <div>
+            <label>Spielzeit (Min):</label><br>
+            <input type="number" id="turnierSpielzeit" 
+                   value="14" min="1" max="30" style="width:80px; padding:6px;">
+        </div>
+        <div>
+            <label>Wechselpause (Min):</label><br>
+            <input type="number" id="turnierWechselpause" 
+                   value="1" min="1" max="10" style="width:80px; padding:6px;">
+        </div>
+    </div>
+
+    <div style="display:flex; gap:12px; margin:10px 0; flex-wrap:wrap;">
+        <div>
+            <label>Turnierpause nach Spiel Nr.:</label><br>
+            <input type="number" id="turnierPauseNach" 
+                   value="0" min="0" style="width:80px; padding:6px;">
+            <small style="color:#888;">0 = keine Pause</small>
+        </div>
+        <div>
+            <label>Pausendauer (Min):</label><br>
+            <input type="number" id="turnierPauseDauer" 
+                   value="0" min="0" style="width:80px; padding:6px;">
+        </div>
+    </div>
+
+  <!-- ALTERSGRUPPEN AUSWAHL -->
+<div style="margin-top:20px;">
+    <h4 style="color:#e94560; margin-bottom:10px;">
+        👶 Altersgruppen auswählen:
+    </h4>
+    <div class="altersgruppen-grid">
+        <label class="checkbox-label"><input type="checkbox" value="U07" onchange="aktualisiereAltersgruppen()"> U07</label>
+        <label class="checkbox-label"><input type="checkbox" value="U08" onchange="aktualisiereAltersgruppen()"> U08</label>
+        <label class="checkbox-label"><input type="checkbox" value="U09" onchange="aktualisiereAltersgruppen()"> U09</label>
+        <label class="checkbox-label"><input type="checkbox" value="U10" onchange="aktualisiereAltersgruppen()"> U10</label>
+        <label class="checkbox-label"><input type="checkbox" value="U11" onchange="aktualisiereAltersgruppen()"> U11</label>
+        <label class="checkbox-label"><input type="checkbox" value="U12" onchange="aktualisiereAltersgruppen()"> U12</label>
+        <label class="checkbox-label"><input type="checkbox" value="U13" onchange="aktualisiereAltersgruppen()"> U13</label>
+        <label class="checkbox-label"><input type="checkbox" value="U14" onchange="aktualisiereAltersgruppen()"> U14</label>
+        <label class="checkbox-label"><input type="checkbox" value="U15" onchange="aktualisiereAltersgruppen()"> U15</label>
+        <label class="checkbox-label"><input type="checkbox" value="U16" onchange="aktualisiereAltersgruppen()"> U16</label>
+        <label class="checkbox-label"><input type="checkbox" value="U17" onchange="aktualisiereAltersgruppen()"> U17</label>
+        <label class="checkbox-label"><input type="checkbox" value="U18" onchange="aktualisiereAltersgruppen()"> U18</label>
+    </div>
+</div>
+
+    <!-- ALTERSGRUPPEN DETAIL BLÖCKE -->
+    <div id="altersgruppen-details" style="margin-top:20px;"></div>
+
+    <div style="margin-top:16px;">
+        <button onclick="erstelleTurnierNeu()" class="btn-primary">
+            ✅ Turnier erstellen
+        </button>
+    </div>
+</div>
+
+<!-- GESPEICHERTE TURNIERE -->
+<div class="section">
+    <h3>📋 Gespeicherte Turniere</h3>
+    <div id="turnierListeContainer">
+        <p>Wird geladen...</p>
+    </div>
+</div>
